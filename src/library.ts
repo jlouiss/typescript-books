@@ -77,13 +77,13 @@ export class Library {
     );
   }
 
-  borrowBook(isbn: string): boolean {
+  borrowBook(isbn: string): Book | null {
     const book = this.findBookByISBN(isbn);
     if (book && !book.isReference) {
       book.isBorrowed = true;
-      return true;
+      return book;
     }
-    return false;
+    return null;
   }
 
   getBorrowedBooks(): Book[] {
