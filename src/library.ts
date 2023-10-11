@@ -97,4 +97,30 @@ export class Library {
       (book) => book.isbn.includes(isbn) || book.isbn13.includes(isbn),
     );
   }
+
+  borrowBook(isbn: string): boolean {
+    const book = this.findBookByISBN(isbn);
+    if (book && !book.isReference) {
+      book.isBorrowed = true;
+      return true;
+    }
+    return false;
+  }
+
+  getBorrowedBooks(): Book[] {
+    return this.books.filter((book) => book.isBorrowed);
+  }
+
+  getReferenceBooks(): Book[] {
+    return this.books.filter((book) => book.isReference);
+  }
+
+  getBorrowedBookCount(): BookCounts {
+    const borrowedCount = this.getBorrowedBooks().length;
+    const availableCount = this.books.length - borrowedCount;
+    return {
+      availableCount,
+      borrowedCount,
+    };
+  }
 }
