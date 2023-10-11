@@ -26,6 +26,11 @@ function generateRandomNumbersArray(
   return [...numbers];
 }
 
+interface BookCounts {
+  availableCount: number;
+  borrowedCount: number;
+}
+
 export class Library {
   private books: Book[] = [];
 
@@ -71,5 +76,25 @@ export class Library {
         this.books[index].isBorrowed = true;
       });
     }
+  }
+
+  findBooksByAuthor(author: string): Book[] {
+    const query = author.toLowerCase();
+    return this.books.filter((book) =>
+      book.authors.toLowerCase().includes(query),
+    );
+  }
+
+  findBooksByTitle(title: string): Book[] {
+    const query = title.toLowerCase();
+    return this.books.filter((book) =>
+      book.title.toLowerCase().includes(query),
+    );
+  }
+
+  findBookByISBN(isbn: string): Book | undefined {
+    return this.books.find(
+      (book) => book.isbn.includes(isbn) || book.isbn13.includes(isbn),
+    );
   }
 }
